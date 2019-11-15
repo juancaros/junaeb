@@ -143,12 +143,34 @@ d3.json("data/viz/output.json").then(data => {
   update(cleanData[0].areas);
 });
 
-// continent dropdown change handler
+// play button click handler
+$("#play-button").on("click", () => {
+  if ($("#play-button").text() === "Play") {
+    $("#play-button").text("Pause");
+    interval = setInterval(step, 1000);
+  } else {
+    $("#play-button").text("Play");
+    clearInterval(interval);
+  }
+});
+
+$("#reset-button").on("click", () => {
+  time = 0;
+  update(cleanData[time].areas);
+});
+
+// area dropdown change handler
 $("#area-select").on("change", () => {
   update(cleanData[time].areas);
 });
 
+function step() {
+  time = time < 7 ? time + 1 : 0;
+  update(cleanData[time].areas);
+}
+
 update = data => {
+  console.log(data);
   let area = $("#area-select").val();
 
   data = data.filter(d => {
@@ -162,7 +184,7 @@ update = data => {
   console.log(data);
 
   // build transition
-  const t = d3.transition().duration(300);
+  const t = d3.transition().duration(1000);
 
   // JOIN new data with old elements
   const circles = g
@@ -195,4 +217,7 @@ update = data => {
     .attr("r", d => {
       return 3;
     });
+
+  // update time labels as time goes along
+  yearLabel.text(+(time + 2013));
 };
