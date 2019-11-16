@@ -4,7 +4,7 @@
 const margin = { left: 80, right: 20, top: 50, bottom: 100 };
 
 // set up width and height of the plot
-const width = 800 - margin.left - margin.right,
+const width = 700 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
 // declare time variable
@@ -220,4 +220,6 @@ update = data => {
 
   // update time labels as time goes along
   yearLabel.text(+(time + 2013));
+  console.log($("#year")[0]);
+  $("#year")[0].innerHTML = +(time + 2013);
 };
