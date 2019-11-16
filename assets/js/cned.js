@@ -223,3 +223,6 @@ update = data => {
   console.log($("#year")[0]);
   $("#year")[0].innerHTML = +(time + 2013);
 };
+
+$("#play-button").css("display", "none");
+$("#reset-button").css("display", "none");

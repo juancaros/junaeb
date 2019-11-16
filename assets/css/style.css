@@ -11,8 +11,18 @@
 .navbar-brand {
   height: 60px;
   padding: 5px 0px;
+  color: white;
 }
 
 .navbar {
   background-color: #507dbc;
+}
+
+#title {
+  color: white;
+}
+
+img {
+  margin-left: auto;
+  margin-right: auto;
 }
