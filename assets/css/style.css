@@ -26,3 +26,12 @@ img {
   margin-left: 75px;
   margin-right: auto;
 }
+
+#map {
+  width: 400px;
+  height: 400px;
+}
+
+.marker {
+  /* background-color: red; */
+}
