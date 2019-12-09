@@ -47,7 +47,7 @@ const x = d3
   .domain([300, 900]);
 
 // Y Scale => linear scale for 'ingreso2' values
-const y = d3
+let y = d3
   .scaleLinear()
   .range([height, 0])
   .domain([0, 800]);
@@ -96,7 +96,7 @@ const xAxisCall = d3.axisBottom(x);
 xAxisGroup.call(xAxisCall);
 
 // Y Axis
-const yAxisCall = d3.axisLeft(y);
+let yAxisCall = d3.axisLeft(y);
 yAxisGroup.call(yAxisCall);
 
 d3.json("data/viz/output.json").then(data => {
@@ -181,6 +181,18 @@ update = data => {
       return d.area === area;
     }
   });
+
+  y = d3
+    .scaleLinear()
+    .range([height, 0])
+    .domain([
+      d3.min(data, d => d.ingreso2) * 0.5,
+      d3.max(data, d => d.ingreso2),
+    ]);
+
+  yAxisCall = d3.axisLeft(y);
+  yAxisGroup.transition(500).call(yAxisCall);
+
   console.log(data);
 
   // build transition
@@ -191,7 +203,7 @@ update = data => {
     .selectAll("circle")
     //use the .data method to attach data to our plot
     .data(data, d => {
-      return d.area;
+      return d.idc;
     });
 
   // EXIT old elements not present in new data
@@ -224,5 +236,5 @@ update = data => {
   $("#year")[0].innerHTML = +(time + 2013);
 };
 
-$("#play-button").css("display", "none");
-$("#reset-button").css("display", "none");
+// $("#play-button").css("display", "none");
+// $("#reset-button").css("display", "none");
