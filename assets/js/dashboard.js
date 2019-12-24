@@ -36,7 +36,6 @@ d3.select(".barGroup")
   .attr("class", "rectGroup");
 
 statArray.map((stat, i) => {
-  console.log(stat);
   stats
     .append("g")
     .attr("class", `yAxis${stat}`)
@@ -79,8 +78,6 @@ statArray.map((stat, i) => {
 });
 
 d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
-  console.log(geojson);
-
   let featuresArray = statArray.map(stat =>
     geojson.features.map(feature => feature.properties[stat])
   );
@@ -88,9 +85,6 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
   let featuresMeanArray = statMeanArray.map(statMean =>
     geojson.features.map(feature => feature.properties[statMean])
   );
-
-  console.log(featuresArray);
-  console.log(featuresMeanArray);
 
   let visData = statArray.map((stat, i) => {
     let statObject = {
@@ -104,8 +98,6 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
 
     return statObject;
   });
-
-  console.log(visData);
 
   // add y axis
   let y = d3
@@ -189,7 +181,7 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
     features = map.queryRenderedFeatures(e.point);
 
     if (features.length === 1) {
-      console.log(features);
+      // console.log(features);
 
       const subgroups = ["value", "sampleMean"];
       let color = d3
@@ -208,7 +200,6 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
 
       // iterate over properties and prepare data to enter
       let schoolData = visData.map(el => {
-        console.log(el, features[0].properties[el.stat]);
         el["values"] = [
           features[0].properties[el.stat],
           features[0].properties[el.meanStat]
@@ -216,15 +207,12 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
         return el;
       });
 
-      console.log(schoolData);
-
       let schoolStat = d3
         .selectAll(".statsGroup")
         .data(schoolData)
         .selectAll("line")
         .data(d => d.values);
 
-      console.log(schoolStat);
       schoolStat.exit().remove();
 
       schoolStat

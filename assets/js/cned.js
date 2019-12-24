@@ -100,13 +100,10 @@ let yAxisCall = d3.axisLeft(y);
 yAxisGroup.call(yAxisCall);
 
 d3.json("data/viz/output.json").then(data => {
-  console.log(data);
-
   //   ---------- BUILD LEGENDS -----------
   const areas = [];
 
   data.map(year => {
-    console.log(year);
     year.areas.map(area => {
       areas.push(area.area);
     });
@@ -170,14 +167,12 @@ function step() {
 }
 
 update = data => {
-  console.log(data);
   let area = $("#area-select").val();
 
   data = data.filter(d => {
     if (area === "All") {
       return true;
     } else {
-      console.log(d.area === area);
       return d.area === area;
     }
   });
@@ -187,13 +182,11 @@ update = data => {
     .range([height, 0])
     .domain([
       d3.min(data, d => d.ingreso2) * 0.5,
-      d3.max(data, d => d.ingreso2),
+      d3.max(data, d => d.ingreso2)
     ]);
 
   yAxisCall = d3.axisLeft(y);
   yAxisGroup.transition(500).call(yAxisCall);
-
-  console.log(data);
 
   // build transition
   const t = d3.transition().duration(1000);
@@ -232,7 +225,7 @@ update = data => {
 
   // update time labels as time goes along
   yearLabel.text(+(time + 2013));
-  console.log($("#year")[0]);
+
   $("#year")[0].innerHTML = +(time + 2013);
 };
 
