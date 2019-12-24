@@ -11,43 +11,101 @@ const map = new mapboxgl.Map({
 });
 
 let features;
+let statArray = ["imce_0", "te_0", "I1", "S0"];
+let statMeanArray = statArray.map(stat => `${stat}Mean`);
 
 let width = 500,
   height = 500,
-  margin = { left: 50, right: 50, top: 20, bottom: 20 };
+  margin = { left: 150, right: 50, top: 20, bottom: 20 };
 
 let stats = d3
   .select("#stats")
   .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom);
-
-stats
-  .append("g")
-  .attr("class", "yAxis")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-stats
-  .append("g")
-  .attr("class", "xAxis")
-  .attr("transform", `translate(${margin.left}, ${margin.top + 75})`);
+  .attr(
+    "viewBox",
+    `0 0 ${width + margin.left + margin.right} ${height +
+      margin.top +
+      margin.bottom}`
+  );
 
 stats.append("g").attr("class", "barGroup");
+
 d3.select(".barGroup")
   .append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`)
   .attr("class", "rectGroup");
 
-d3.select(".barGroup")
-  .append("g")
-  .attr("class", "statsGroup")
-  .attr("transform", `translate(${margin.left},${margin.top})`);
+statArray.map((stat, i) => {
+  console.log(stat);
+  stats
+    .append("g")
+    .attr("class", `yAxis${stat}`)
+    .attr(
+      "transform",
+      `translate(${margin.left}, ${
+        i === 0 ? margin.top : margin.top * i * 5.7 + 15
+      })`
+    );
+
+  stats
+    .append("g")
+    .attr("class", `yAxis${stat}right`)
+    .attr(
+      "transform",
+      `translate(${width + margin.left}, ${
+        i === 0 ? margin.top : margin.top * i * 5.7 + 15
+      })`
+    );
+
+  stats
+    .append("g")
+    .attr("class", `xAxis${stat}`)
+    .attr(
+      "transform",
+      `translate(${margin.left}, ${
+        i === 0 ? margin.top + 75 : margin.top * i * 5.7 + 90
+      })`
+    );
+
+  stats
+    .append("text")
+    .text(stat)
+    .attr(
+      "transform",
+      `translate(${0}, ${
+        i === 0 ? margin.top + 45 : margin.top * i * 5.7 + 60
+      })`
+    );
+});
 
 d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
   console.log(geojson);
-  let imce0Array = geojson.features.map((feature, i) => {
-    return feature.properties.imce_0;
+
+  let featuresArray = statArray.map(stat =>
+    geojson.features.map(feature => feature.properties[stat])
+  );
+
+  let featuresMeanArray = statMeanArray.map(statMean =>
+    geojson.features.map(feature => feature.properties[statMean])
+  );
+
+  console.log(featuresArray);
+  console.log(featuresMeanArray);
+
+  let visData = statArray.map((stat, i) => {
+    let statObject = {
+      stat: stat,
+      min: d3.min(featuresArray[i]),
+      max: d3.max(featuresArray[i]),
+      meanStat: `${stat}Mean`
+    };
+
+    statObject["domain"] = [statObject.min, statObject.max];
+
+    return statObject;
   });
+
+  console.log(visData);
 
   // add y axis
   let y = d3
@@ -66,17 +124,29 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
   // add x axis
   let x = d3
     .scaleLinear()
-    .domain([d3.min(imce0Array), d3.max(imce0Array)])
+    // .domain([d3.min(imce0Array), d3.max(imce0Array)])
     .range([0, width]);
 
   // use d3 to setup x and y axes
-  d3.select(".yAxis")
-    .transition()
-    .call(d3.axisLeft(y));
 
-  d3.select(".xAxis")
-    .transition()
-    .call(d3.axisBottom(x).tickSizeOuter(0));
+  visData.map(stat => {
+    d3.select(`.yAxis${stat.stat}`)
+      .transition()
+      .call(d3.axisLeft(y));
+
+    d3.select(`.yAxis${stat.stat}right`)
+      .transition()
+      .call(d3.axisRight(y2));
+
+    d3.select(`.xAxis${stat.stat}`)
+      .transition()
+      .call(
+        d3
+          .axisBottom(x.domain(stat.domain))
+          .tickSizeOuter(0)
+          .ticks(8)
+      );
+  });
 
   ///////////////////////////////
 
@@ -84,19 +154,35 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
 
   d3.select(".rectGroup")
     .selectAll("rect")
-    .data(["imce0"])
+    .data(visData)
     .enter()
     .append("rect")
     .attr("class", "imce0-rect")
-    .attr("y", d => y("Min"))
-    .attr("x", d => x(d3.min(imce0Array)))
-    .attr("width", x(d3.min(imce0Array)))
+    .attr("y", (d, i) => (i === 0 ? y("Min") : i * y("Min") * 9 + 10))
+    .attr("x", d => x.domain(d.domain)(d.min))
+    .attr("width", d => x.domain(d.domain)(d.min))
     .attr("height", d => y.bandwidth())
     .attr("opacity", 0)
     .transition(1000)
     .attr("opacity", 0.7)
     .attr("fill", "blue")
-    .attr("width", x(d3.max(imce0Array)));
+    .attr("width", d => x.domain(d.domain)(d.max));
+
+  d3.select(".rectGroup")
+    .selectAll("g")
+    .data(visData)
+    .enter()
+    .append("g")
+    .attr("class", "statsGroup")
+    .attr("transform", (d, i) =>
+      i === 0
+        ? `translate(${0}, ${y("Min")})`
+        : `translate(${0}, ${i * y("Min") * 9 + 10})`
+    );
+
+  // adjust font size for the viz
+
+  stats.selectAll("text").attr("font-size", "2em");
 
   let handleMapClick = e => {
     //   console.log(e.point);
@@ -105,19 +191,11 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
     if (features.length === 1) {
       console.log(features);
 
-      let stackedFeatures = [
-        {
-          value: features[0].properties.imce_0,
-          sampleMean: features[0].properties.imce_0Mean
-        }
-      ];
       const subgroups = ["value", "sampleMean"];
       let color = d3
         .scaleOrdinal()
         .domain(subgroups)
         .range(["#e41a1c", "#377eb8"]);
-
-      let stackedData = d3.stack().keys(subgroups)(stackedFeatures);
       let schoolDiv = $("#schoolDiv");
 
       schoolDiv.html(`
@@ -128,39 +206,44 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
         <h4>Family Size: ${features[0].properties.familySize}</h4>
         `);
 
-      // load data
-      let stat = d3
-        .select(".statsGroup")
+      // iterate over properties and prepare data to enter
+      let schoolData = visData.map(el => {
+        console.log(el, features[0].properties[el.stat]);
+        el["values"] = [
+          features[0].properties[el.stat],
+          features[0].properties[el.meanStat]
+        ];
+        return el;
+      });
+
+      console.log(schoolData);
+
+      let schoolStat = d3
+        .selectAll(".statsGroup")
+        .data(schoolData)
         .selectAll("line")
-        .data([
-          features[0].properties.imce_0,
-          features[0].properties.imce_0Mean
-        ]);
-      // remove old lines from .statsGroup
-      stat.exit().remove();
+        .data(d => d.values);
 
-      stat
+      console.log(schoolStat);
+      schoolStat.exit().remove();
+
+      schoolStat
         .transition()
-        .attr("y1", y("Min"))
-        .attr("y2", y("Min") + y.bandwidth())
-        .attr("x1", d => x(d))
-        .attr("x2", d => x(d))
+        .attr("y1", (d, i) => y("Min") - y.bandwidth() / 4)
+        .attr("y2", (d, i) => +y.bandwidth())
+        .attr("x1", (d, i) => x.domain(schoolData[i].domain)(d))
+        .attr("x2", (d, i) => x.domain(schoolData[i].domain)(d))
         .attr("stroke", "red")
-        .attr("stroke-width", 4)
-        .attr("stroke-dasharray", (d, i) => (i === 1 ? 4 : null));
+        .attr("stroke-width", 4);
 
-      // add new lines to .statsGroup
-
-      stat
+      schoolStat
         .enter()
         .append("line")
         .attr("stroke", "red")
-        .transition()
-        .attr("y1", y("Min"))
-        .attr("y2", y("Min") + y.bandwidth())
-        .attr("x1", d => x(d))
-        .attr("x2", d => x(d))
-        .attr("stroke", "red")
+        .attr("y1", (d, i) => y("Min") - y.bandwidth() / 4)
+        .attr("y2", (d, i) => +y.bandwidth())
+        .attr("x1", (d, i) => x.domain(schoolData[i].domain)(d))
+        .attr("x2", (d, i) => x.domain(schoolData[i].domain)(d))
         .attr("stroke-width", 4)
         .attr("stroke-dasharray", (d, i) => (i === 1 ? 4 : null));
     }
