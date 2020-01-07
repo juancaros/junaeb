@@ -11,7 +11,7 @@ const map = new mapboxgl.Map({
 });
 
 let features;
-let statArray = ["BAZ", "HAZ", "Time Invest", "Socioemotional skill"];
+let statArray = ["imce_0", "te_0", "I1", "S0"];
 let statMeanArray = statArray.map(stat => `${stat}Mean`);
 
 let width = 500,
