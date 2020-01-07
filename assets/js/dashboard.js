@@ -191,11 +191,10 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
       let schoolDiv = $("#schoolDiv");
 
       schoolDiv.html(`
-        <h3>School ID: ${features[0].properties.idrbd}</h3>
-        <h3>School Name: ${features[0].properties.NOM_RBD}</h3>
+        <h3>School ID: ${features[0].properties.idrbd}</h4>
         <h3>Comuna: ${features[0].properties.NOM_COM_RBD}</h3>
         <h3>Province: ${features[0].properties.NOM_DEPROV_RBD}</h3>
-        <h4>Family Size: ${features[0].properties.familySize}</h4>
+        <h3>Average family size: ${features[0].properties.familySize}</h3>    
         `);
 
       // iterate over properties and prepare data to enter
