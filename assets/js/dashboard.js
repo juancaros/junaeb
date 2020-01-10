@@ -6,17 +6,22 @@ mapboxgl.accessToken = mapboxToken;
 const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/a-vargasmarte/ck3xpzp1m2gxt1dmyttn4qiv5",
-  center: [-73.05, -36.82],
-  zoom: 12
+  center: [-73.04444, -36.8201],
+  zoom: 15
 });
 
 let features;
-let statArray = ["imce_0", "te_0", "I1", "S0"];
-let statMeanArray = statArray.map(stat => `${stat}Mean`);
+let statArray = [
+  { value: "imce_0", label: "BAZ" },
+  { value: "te_0", label: "HAZ" },
+  { value: "I1", label: "Time Investment" },
+  { value: "S0", label: "Socioemotional Skills" }
+];
+let statMeanArray = statArray.map(stat => `${stat.value}Mean`);
 
 let width = 500,
   height = 500,
-  margin = { left: 150, right: 50, top: 20, bottom: 20 };
+  margin = { left: 400, right: 60, top: 20, bottom: 20 };
 
 let stats = d3
   .select("#stats")
@@ -36,9 +41,10 @@ d3.select(".barGroup")
   .attr("class", "rectGroup");
 
 statArray.map((stat, i) => {
+  console.log(stat);
   stats
     .append("g")
-    .attr("class", `yAxis${stat}`)
+    .attr("class", `yAxis${stat.value}`)
     .attr(
       "transform",
       `translate(${margin.left}, ${
@@ -48,7 +54,7 @@ statArray.map((stat, i) => {
 
   stats
     .append("g")
-    .attr("class", `yAxis${stat}right`)
+    .attr("class", `yAxis${stat.value}right`)
     .attr(
       "transform",
       `translate(${width + margin.left}, ${
@@ -58,7 +64,7 @@ statArray.map((stat, i) => {
 
   stats
     .append("g")
-    .attr("class", `xAxis${stat}`)
+    .attr("class", `xAxis${stat.value}`)
     .attr(
       "transform",
       `translate(${margin.left}, ${
@@ -68,30 +74,34 @@ statArray.map((stat, i) => {
 
   stats
     .append("text")
-    .text(stat)
+    .attr("text-anchor", "end")
+    .text(stat.label)
     .attr(
       "transform",
-      `translate(${0}, ${
+      `translate(${margin.left - 100}, ${
         i === 0 ? margin.top + 45 : margin.top * i * 5.7 + 60
       })`
     );
 });
 
 d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
+  console.log(geojson);
   let featuresArray = statArray.map(stat =>
-    geojson.features.map(feature => feature.properties[stat])
+    geojson.features.map(feature => feature.properties[stat.value])
   );
 
   let featuresMeanArray = statMeanArray.map(statMean =>
     geojson.features.map(feature => feature.properties[statMean])
   );
 
+  console.log(featuresArray);
+
   let visData = statArray.map((stat, i) => {
     let statObject = {
-      stat: stat,
+      stat: stat.value,
       min: d3.min(featuresArray[i]),
       max: d3.max(featuresArray[i]),
-      meanStat: `${stat}Mean`
+      meanStat: `${stat.value}Mean`
     };
 
     statObject["domain"] = [statObject.min, statObject.max];
@@ -122,6 +132,7 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
   // use d3 to setup x and y axes
 
   visData.map(stat => {
+    // console.log(stat);
     d3.select(`.yAxis${stat.stat}`)
       .transition()
       .call(d3.axisLeft(y));
@@ -139,6 +150,8 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
           .ticks(8)
       );
   });
+
+  console.log(visData);
 
   ///////////////////////////////
 
@@ -191,10 +204,10 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
       let schoolDiv = $("#schoolDiv");
 
       schoolDiv.html(`
-        <h3>School ID: ${features[0].properties.idrbd}</h4>
-        <h3>Comuna: ${features[0].properties.NOM_COM_RBD}</h3>
-        <h3>Province: ${features[0].properties.NOM_DEPROV_RBD}</h3>
-        <h3>Average family size: ${features[0].properties.familySize}</h3>    
+        <h3 class='school-data'>School ID: ${features[0].properties.idrbd}</h3>
+        <h3 class='school-data'>Comuna: ${features[0].properties.NOM_COM_RBD}</h3>
+        <h3 class='school-data'>Province: ${features[0].properties.NOM_DEPROV_RBD}</h3>
+        <h3 class='school-data'>Average family size: ${features[0].properties.familySize}</h3>    
         `);
 
       // iterate over properties and prepare data to enter

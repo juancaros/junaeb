@@ -46,7 +46,7 @@ const x = d3
   .range([0, width])
   .domain([300, 900]);
 
-// Y Scale => linear scale for 'ingreso2' values
+// Y Scale => linear scale for 'enrollment' values
 let y = d3
   .scaleLinear()
   .range([height, 0])
@@ -100,6 +100,7 @@ let yAxisCall = d3.axisLeft(y);
 yAxisGroup.call(yAxisCall);
 
 d3.json("data/viz/output.json").then(data => {
+  console.log(data);
   //   ---------- BUILD LEGENDS -----------
   const areas = [];
 
@@ -181,8 +182,8 @@ update = data => {
     .scaleLinear()
     .range([height, 0])
     .domain([
-      d3.min(data, d => d.ingreso2) * 0.5,
-      d3.max(data, d => d.ingreso2)
+      d3.min(data, d => d.enrollment) * 0.5,
+      d3.max(data, d => d.enrollment)
     ]);
 
   yAxisCall = d3.axisLeft(y);
@@ -214,10 +215,10 @@ update = data => {
     .merge(circles)
     .transition(t)
     .attr("cy", d => {
-      return y(d.ingreso2);
+      return y(d.enrollment);
     })
     .attr(`cx`, d => {
-      return x(d.puntaje);
+      return x(d.score);
     })
     .attr("r", d => {
       return 3;
@@ -226,7 +227,7 @@ update = data => {
   // update time labels as time goes along
   yearLabel.text(+(time + 2013));
 
-  $("#year")[0].innerHTML = +(time + 2013);
+  // $("#year")[0].innerHTML = +(time + 2013);
 };
 
 // $("#play-button").css("display", "none");

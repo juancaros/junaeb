@@ -28,10 +28,14 @@ img {
 }
 
 #map {
-  width: 400px;
+  width: 550px;
   height: 400px;
 }
 
 .marker {
   /* background-color: red; */
+}
+
+h3.school-data {
+  line-height: 10px;
 }
