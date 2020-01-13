@@ -41,7 +41,6 @@ d3.select(".barGroup")
   .attr("class", "rectGroup");
 
 statArray.map((stat, i) => {
-  console.log(stat);
   stats
     .append("g")
     .attr("class", `yAxis${stat.value}`)
@@ -85,7 +84,6 @@ statArray.map((stat, i) => {
 });
 
 d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
-  console.log(geojson);
   let featuresArray = statArray.map(stat =>
     geojson.features.map(feature => feature.properties[stat.value])
   );
@@ -93,8 +91,6 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
   let featuresMeanArray = statMeanArray.map(statMean =>
     geojson.features.map(feature => feature.properties[statMean])
   );
-
-  console.log(featuresArray);
 
   let visData = statArray.map((stat, i) => {
     let statObject = {
@@ -150,8 +146,6 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
           .ticks(8)
       );
   });
-
-  console.log(visData);
 
   ///////////////////////////////
 

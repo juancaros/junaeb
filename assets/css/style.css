@@ -39,3 +39,9 @@ img {
 h3.school-data {
   line-height: 10px;
 }
+
+.axis,
+.legendText {
+  font-size: 18px;
+  font-weight: bold;
+}

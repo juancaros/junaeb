@@ -4,15 +4,21 @@
   (width = 600 - margin.left - margin.right),
   (height = 500 - margin.top - margin.bottom);
 
-// let cleanData
+let cleanData;
+let value;
+let by;
 
 // append svg to #boxplot
 
 const boxSvg = d3
   .select("#boxplot")
   .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
+  .attr(
+    "viewBox",
+    `0 0 ${width + margin.left + margin.right} ${height +
+      margin.top +
+      margin.bottom}`
+  )
   .append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -28,7 +34,7 @@ let x = d3
 
 boxSvg
   .append("g")
-  .attr("class", "boxXAxisGroup")
+  .attr("class", "boxXAxisGroup axis")
   .attr("transform", `translate(0, ${height})`)
   .call(d3.axisBottom(x));
 
@@ -37,7 +43,7 @@ let y = d3.scaleLinear().range([height, 0]);
 
 boxSvg
   .append("g")
-  .attr("class", "boxYAxisGroup")
+  .attr("class", "boxYAxisGroup axis")
   .call(d3.axisLeft(y));
 
 ////////////////////////// AXES LABELS ////////////////////////
@@ -47,39 +53,44 @@ boxSvg
 boxSvg
   .append("text")
   .attr("class", "yLabelText")
-  .attr("transform", `translate(${-margin.right}, ${height / 2}) rotate(-90)`)
+  .attr(
+    "transform",
+    `translate(${-margin.right / 1.2}, ${height / 2}) rotate(-90)`
+  )
   .attr("text-anchor", `middle`)
+  .attr("font-size", "22px")
   .text($("#boxplot-select")[0].value);
 
 boxSvg
   .append("text")
   .attr("transform", `translate(${width / 2}, ${height + margin.bottom})`)
   .attr("text-anchor", `middle`)
+  .attr("font-size", "20px")
   .text("Grade");
 
 //////////////////////// LEGEND /////////////////////////////////
-boxSvg
-  .selectAll(".legendText")
-  .data([0, 1])
-  .append("text")
-  .attr("class", ".legendText")
-  .attr("x", (d, i) => {
-    // console.log(d);
-    return i * (width / 2) + width / 3.5;
-  })
-  .attr("y", -margin.bottom + 25 / 2)
-  .text(d => {
-    // console.log(d);
-    return d;
-  });
+// boxSvg
+//   .selectAll(".legendText")
+//   .data([0, 1])
+//   .append("text")
+//   .attr("class", ".legendText")
+//   .attr("x", (d, i) => {
+//     // console.log(d);
+//     return i * (width / 2) + width / 3.5;
+//   })
+//   .attr("y", -margin.bottom + 25 / 2)
+//   .text(d => {
+//     // console.log(d);
+//     return d;
+//   });
 
 ///////////////////////// LOAD DATA ////////////////////////////
 ///////////////////////////////////////////////////////////////
 
 d3.csv("./data/viz/boxplot.csv")
   .then(data => {
-    let value = $("#boxplot-select")[0].value;
-    let by = $("#boxplot-select-by")[0].value;
+    value = $("#boxplot-select")[0].value;
+    by = $("#boxplot-select-by")[0].value;
     cleanData = data;
     // console.log(value, by);
 
@@ -96,16 +107,15 @@ $("#boxplot-select").on("change", () =>
   )
 );
 
-$("#boxplot-select-by").on("change", () =>
+$("#boxplot-select-by").on("change", () => {
   updateBox(
     cleanData,
     $("#boxplot-select")[0].value,
     $("#boxplot-select-by")[0].value
-  )
-);
+  );
+});
 
 updateBox = (data, value, by) => {
-  // console.log(data);
   ///////////////// DATA TRANSFORMATION ///////////////////
 
   // compute quartiles, median, interquartile range, min, and max from our metrics of interest
@@ -247,17 +257,15 @@ updateBox = (data, value, by) => {
   const legendSize = 25;
   let legendBoxes = Array.from(new Set(subgroupStats.map(stat => stat.key)));
   let legendNames = legendBoxes;
-  // console.log(legendBoxes);
+  // console.log(legendNames);
 
   // load data to create legend and legendText
   let legend = boxSvg.selectAll(".legend").data(legendBoxes);
-  legendText = boxSvg.selectAll(".legendText").data(legendNames);
 
   // console.log(legendText);
 
   // remove old from legend and legendText
   legend.exit().remove();
-  legendText.exit().remove();
 
   // add new data to create legend and legendText
   legend
@@ -272,19 +280,16 @@ updateBox = (data, value, by) => {
     .style("fill", "#507DBC")
     .attr("opacity", (d, i) => (i % 2 === 0 ? 1 : 0.7));
 
+  let legendText = boxSvg.selectAll(".legendText").data(legendNames);
+
+  legendText.exit().remove();
+
   legendText
     .enter()
     .append("text")
     .attr("class", "legendText")
-    .attr("x", (d, i) => {
-      // console.log(d);
-      return i * (width / 2) + width / 3.5;
-    })
-    .attr("y", -margin.bottom + legendSize / 2)
-    .text(d => {
-      // console.log(d);
-      return d;
-    });
+    .attr("x", (d, i) => i * (width / 2) + width / 3.5)
+    .attr("y", -margin.bottom + legendSize / 1.2);
 
-  // console.log(legendText);
+  d3.selectAll(".legendText").text(d => d);
 };
