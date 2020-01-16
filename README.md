@@ -1,4 +1,4 @@
-# junaeb
+# Easing the burden: tracking and boosting children's health and socio-emotional skills
 
 Childhood obesity has long-lasting effects in physical, cognitive and socio-emotional skills that are critical for the labor market. From a life-cycle perspective, the costs of overweight and obesity are substantial: decreased quality of life, elevated risk of mortality, chronic physical and mental health conditions, increased health-care consumption, productivity losses and absenteeism, and social stigma. The economic return to mitigate obesity alone is six-fold. Overall, giving children the best conditions for human capital skills building is more effective across any future occupation.
 
