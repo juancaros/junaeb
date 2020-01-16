@@ -10,66 +10,71 @@
     <link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
     <!-- Custom styling -->
     <link rel="stylesheet" href="assets/css/style.css" />
-
-    <div class=" bg-white text-right">
-      <img src="assets/images/index.png" />
-    </div>
   </head>
   <body>
-    <nav class="navbar navbar-default">
-      <div class="container bg-white">
-        <div
-          class="bg-white"
-          style="height:15px; width:100%; clear:both;"
-        ></div>
-        <a class="navbar-fixed-top bg-white"> </a>
-        <a href="/junaeb/"
-          ><button type="button" class="btn btn-light">
-            Home
-          </button>
-        </a>
-        <a href="/junaeb/earlychild.html">
-          <button type="button" class="btn btn-light">
-            Measuring Skills
-          </button>
-        </a>
-        <a href="/junaeb/dashboard.html">
-          <button type="button" class="btn btn-light">
-            Dashboard
-          </button>
-        </a>
-        <a href="/junaeb/data.html">
-          <button type="button" class="btn btn-light">
-            Data
-          </button>
-        </a>
-        <a href="/junaeb/about.html">
-          <button type="button" class="btn btn-light">
-            About
-          </button>
-        </a>
-
-        <a
-          href="https://ideas.unite.un.org/futureskills/Page/Home"
-          target="_blank"
-        >
-          <button type="button" class="btn btn-light">
-            <b>Vote us!</b>
-          </button>
-        </a>
-
-        <a class="navbar-brand" href="#"></a>
+    <div class="bg-white text-right">
+      <img src="assets/images/index.png" />
+    </div>
+    <header>
+      <div class="container">
+        <div class="btn-group" role="group">
+          <div class="btn-group" role="group">
+            <a href="/junaeb/"
+              ><button type="button" class="btn btn-light nav-btn">
+                Home
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="/junaeb/earlychild.html">
+              <button type="button" class="btn btn-light nav-btn">
+                Measuring Skills
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="/junaeb/dashboard.html">
+              <button type="button" class="btn btn-light nav-btn">
+                Dashboard
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="/junaeb/data.html">
+              <button type="button" class="btn btn-light nav-btn">
+                Data
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="/junaeb/about.html">
+              <button type="button" class="btn btn-light nav-btn">
+                About
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a
+              href="https://ideas.unite.un.org/futureskills/Page/Home"
+              target="_blank"
+            >
+              <button type="button" class="btn btn-danger nav-btn">
+                <b>Vote for us!</b>
+              </button>
+            </a>
+          </div>
+        </div>
         <h2 id="title" class="text-center lead font-weight-light">
           Easing the burden: tracking and boosting children's health and
           socio-emotional skills
         </h2>
       </div>
-    </nav>
-    <div class="container ">
+    </header>
+    <article class="container ">
       <div class="row">
         <div class="col-md-12 col-sm-12">
           <h3 class="text-primary">Data</h3>
-          <p>
+          <p class="text-justify lead">
             This project (i.e. Dashboard) relies mainly on administrative data
             from the Chilean National Board of School Aid (JUNAEB). Their large
             network of collaborators that allow for data collection at the
@@ -81,7 +86,7 @@
             more of the invaluable work they do
             <a href="https://www.junaeb.cl" target="_blank">here</a>
           </p>
-          <p>
+          <p class="text-justify lead">
             Every year, JUNAEB requires the assistance of all schools
             participating in the SMP to collect a census of anthropometric
             measurements and household surveys. The anthropometric information
@@ -97,7 +102,7 @@
             instruments used for the measurements, the distribution of data is
             consistent across sub-populations and over time.
           </p>
-          <p>
+          <p class="text-justify lead">
             The survey contains rich information at the household level to
             characterize vulnerability along with several dimensions of child's
             health and development. The instrument presents some differences
@@ -113,7 +118,7 @@
             emotional aspects the child (only available in school grades, with
             slight variation across grades).
           </p>
-          <p>
+          <p class="text-justify lead">
             For additional information on the other datasets used across this
             web platform, visit the
             <a href="https://datos.mineduc.cl" target="_blank">webpage</a> of
@@ -130,10 +135,11 @@
       </div>
       <hr />
       <div class="row">
-        <div class="col-md-12 col-sm-12">
+        <figure class="col-md-12 col-sm-12">
           <img class="data-img center-block" src="assets/images/data.jpg" />
-        </div>
+        </figure>
       </div>
-    </div>
+      <hr />
+    </article>
   </body>
 </html>

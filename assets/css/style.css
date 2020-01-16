@@ -26,7 +26,7 @@ h6 {
   color: white;
 }
 
-.navbar {
+header {
   background-color: #507dbc;
 }
 
@@ -34,9 +34,19 @@ h6 {
   color: white;
 }
 
-img {
-  margin-left: 75px;
-  margin-right: auto;
+.nav-btn {
+  margin: 10px 10px 0 0;
+}
+
+.article-about {
+  margin-top: 20px;
+}
+
+.img-headshot {
+  width: 150px;
+  height: auto;
+  border: 2px #507dbc solid;
+  margin-right: 10px;
 }
 
 #map {

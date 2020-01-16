@@ -144,10 +144,14 @@ d3.json("data/viz/output.json").then(data => {
 // play button click handler
 $("#play-button").on("click", () => {
   if ($("#play-button").text() === "Play") {
-    $("#play-button").text("Pause");
+    $("#play-button")
+      .text("Pause")
+      .attr("class", "btn btn-danger");
     interval = setInterval(step, 1000);
   } else {
-    $("#play-button").text("Play");
+    $("#play-button")
+      .text("Play")
+      .attr("class", "btn btn-primary");
     clearInterval(interval);
   }
 });
