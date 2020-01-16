@@ -161,10 +161,8 @@ d3.json("./data/viz/mn2017geoOutput.json").then(geojson => {
     .attr("x", d => x.domain(d.domain)(d.min))
     .attr("width", d => x.domain(d.domain)(d.min))
     .attr("height", d => y.bandwidth())
-    .attr("opacity", 0)
     .transition(1000)
-    .attr("opacity", 0.7)
-    .attr("fill", "blue")
+    .attr("fill", "#507dbc")
     .attr("width", d => x.domain(d.domain)(d.max));
 
   d3.select(".rectGroup")
