@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>FutureSkills: Easing the Burden</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/d3-tip.css" />
+    <link rel="stylesheet" href="assets/css/jquery-ui.min.css" />
+    <!-- Custom styling -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+
+  <body>
+    <div class="bg-white text-right">
+      <img src="assets/images/index.png" />
+    </div>
+    <header>
+      <div class="container">
+        <div class="btn-group" role="group">
+          <div class="btn-group" role="group">
+            <a href="/junaeb/"
+              ><button type="button" class="btn btn-light nav-btn">
+                Home
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="/junaeb/earlychild.html">
+              <button type="button" class="btn btn-light nav-btn">
+                Measuring Skills
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="/junaeb/dashboard.html">
+              <button type="button" class="btn btn-light nav-btn">
+                Dashboard
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="/junaeb/data.html">
+              <button type="button" class="btn btn-light nav-btn">
+                Data
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a href="/junaeb/about.html">
+              <button type="button" class="btn btn-light nav-btn">
+                About
+              </button>
+            </a>
+          </div>
+          <div class="btn-group" role="group">
+            <a
+              href="https://ideas.unite.un.org/futureskills/Page/Home"
+              target="_blank"
+            >
+              <button type="button" class="btn btn-danger nav-btn">
+                <b>Vote for us!</b>
+              </button>
+            </a>
+          </div>
+        </div>
+        <h2 id="title" class="text-center lead font-weight-light">
+          Easing the burden: tracking and boosting children's health and
+          socio-emotional skills
+        </h2>
+      </div>
+    </header>
+
+    <!-- Bootstrap grid setup -->
+    <div class="container ">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <h3 class="text-primary">
+            Human capital skills for jobs in the next generation
+          </h3>
+          <p class="text-justify lead">
+            Increasingly, highly demanded, high-skilled jobs require a diverse
+            set of human capital skills beyond learned content: team-building,
+            mindfulness, continous learning (see an example from
+            <a
+              href="https://careers.un.org/lbw/attachments/competencies_booklet_en.pdf"
+              target="_blank"
+              >United Nations</a
+            >). Such jobs are linked to fast growing higher-ed programs with
+            strict entry requirements , measured by standarized tests (like SAT
+            or equivalent). Here is an example from Chile, showing the
+            relationship between mean standarized college entry scores and
+            enrollement size for each program across all areas of higher
+            education between 2013 and 2019 (excludes programs without test
+            requirements). Enrollment size is linked to higher admision
+            standards, particularly for STEM, Business and Law.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <button id="play-button" class="btn btn-primary">Play</button>
+          <button id="reset-button" class="btn btn-primary">Reset</button>
+        </div>
+
+        <div class="col-md-4">
+          <select id="area-select" class="form-control">
+            <option selected value="All">All</option>
+            <option value="Art/Humanities">Art/Humanities</option>
+            <option value="STEM">STEM</option>
+            <option value="SocSci">SocSci</option>
+            <option value="Education">Education</option>
+            <option value="Health">Health</option>
+            <option value="Business">Business</option>
+            <option value="Law">Law</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-sm-10">
+          <div id="chart-area"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <p class="text-justify lead">
+            The complex mix of capacities required to be successful in atractive
+            career paths, demand critical child development necessary for
+            learning during the school years. Extensive evidence indicates that
+            active learning at school requires a mix of socio-emotional skills
+            and physical health. The
+            <a
+              href="https://read.oecd-ilibrary.org/social-issues-migration-health/the-heavy-burden-of-obesity_67450d67-en#page1"
+              target="_blank"
+              >OCDE</a
+            >
+            estimates suggest that normal weight children are 13% more likely to
+            perform well at school, relative to their less healthy peers.
+            Moreover, both physical health and socio-emotional skills are
+            intimately connected.
+            <a
+              href="https://www.journals.uchicago.edu/doi/abs/10.1086/692016?journalCode=jhc"
+              target="_blank"
+              >Research</a
+            >
+            shows that obese children tend to accumulate less socio-emotional
+            skills over time.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <p class="text-justify lead">
+            Again, an example from Chile can be informative. Here is a binned
+            plot showing the obesity prevalence at high school level by average
+            school learning performace in 2015-2017 for voucher schools (each
+            observation in the data is a school). School performance is measured
+            by the average standarized scores (0-100) across all disciplines
+            (e.g. math, languague) and school levels (primary, middle, high).
+            Overall, voucher schools with high effectiveness (i.e. higher
+            average learning) also have a lower proportion of obese students.
+          </p>
+
+          <p></p>
+        </div>
+
+        <div class="col-md-6 col-sm-12 text-center">
+          <img src="assets/images/bin1.png" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <p class="text-justify lead">
+            We face a vicious cycle: stressful environments favor weight gain
+            among children, which in turn affects their socio-emotional
+            development, making them less likely to adopt healthy behaviors.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="text-primary">Monitoring early human capital skills</h3>
+          <p class="text-justify lead">
+            Given the importance of early human capital accumulation from a
+            life-cycle perspective, we would want to track and support
+            disadvantage groups once they enter the school system. Fortunately,
+            there are several ways to collect information once children are at
+            school. For example, in many countries the School Meal Programs
+            provide an unique opportunity to collect health and socio-economic
+            information of each student.
+          </p>
+          <p class="text-justify lead">
+            Our solution is founded on exploiting the potential of such routine
+            administrative data at the PK-12 ages. For example, data is
+            periodically collected for all students in specific grades attending
+            public and voucher schools in Chile. You can see a working example
+            in the
+            <b>Dashboard</b> section.
+          </p>
+          <p class="text-justify lead">
+            The toolkit is based on a simple human capital framework that
+            formalize the statistical assumptions needed for a country-wide
+            model that allows to predict the future path for children's human
+            capital accumulation, based on the longitudinal data available from
+            multiple cohorts (see the <b>Measuring Skills</b> section). The
+            toolkit is based on a combination of theoretical premises as well as
+            statistical foundations, using simple Python tools. More information
+            about the data analysis can be found in the <b>Data</b> section and
+            in our documentation available at the Github repository.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- External JS libraries -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/d3.min.js"></script>
+    <!-- <script src="assets/js/d3-tip.js"></script> -->
+    <!-- Custom JS -->
+    <script src="assets/js/cned.js"></script>
+  </body>
+</html>
